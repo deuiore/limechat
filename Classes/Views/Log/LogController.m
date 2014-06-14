@@ -564,10 +564,11 @@
 
             if ([ImageURLParser isImageFileURL:url]) {
                 isFileURL = YES;
-                if (![url hasPrefix:@"http://gyazo.com/"]) {
-                    checkingSize = YES;
-                    [[ImageDownloadManager instance] checkImageSize:url client:_client channel:_channel lineNumber:_lineNumber imageIndex:imageIndex];
-                }
+            }
+
+            if (![url hasPrefix:@"http://gyazo.com/"]) {
+                checkingSize = YES;
+                [[ImageDownloadManager instance] checkImageSize:url client:_client channel:_channel lineNumber:_lineNumber imageIndex:imageIndex];
             }
 
             if (!checkingSize) {
@@ -576,7 +577,8 @@
                     imageUrl = url;
                 }
                 else {
-                    imageUrl = [ImageURLParser serviceImageURLForURL:url];
+                    NSString* parsedUrl = [ImageURLParser serviceImageURLForURL:url];
+                    imageUrl = parsedUrl ? parsedUrl : url;
                 }
 
                 if (imageUrl) {
